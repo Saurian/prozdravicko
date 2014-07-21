@@ -1,0 +1,93 @@
+{block content}
+
+	<div class="row">
+
+		<div class="col-sm-12 widget-container-col ui-sortable">
+			<div class="widget-box">
+				<div class="widget-header widget-header-small">
+					<h5 class="widget-title smaller">Produkty</h5>
+
+					<div class="widget-toolbar no-border">
+						<ul id="myTab" class="nav nav-tabs">
+							<li class="">
+								<a href="#category" data-toggle="tab">Kategorie</a>
+							</li>
+
+							<li class="active">
+								<a href="#products" data-toggle="tab">Produkty</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="widget-body">
+					<div class="widget-main padding-6">
+						<div class="tab-content">
+							<div class="tab-pane" id="category">
+								<div class="widget-toolbox">
+									<div class="btn-toolbar">
+										<div class="btn-group">
+											<a n:href="categoryInsert" class="btn btn-primary btn-white btn-sm">
+												<i class="ace-icon fa fa-check bigger-110 blue"></i>
+												Vložit kategorii
+											</a>
+										</div>
+
+									</div>
+								</div>
+								{control categoryGrid}
+							</div>
+
+							<div class="tab-pane active" id="products">
+								<div class="widget-toolbox">
+									<div class="btn-toolbar">
+										<div class="btn-group">
+											<a n:href="productInsert" class="btn btn-primary btn-white btn-sm">
+												<i class="ace-icon fa fa-check bigger-110 blue"></i>
+												Vložit produkt
+											</a>
+										</div>
+
+									</div>
+								</div>
+								{control itemsGrid}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+{/block}
+
+{block toolbar}
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog  modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Modal title</h4>
+				</div>
+				<div class="modal-body"><div class="te"></div></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+
+
+
+
+{/block}

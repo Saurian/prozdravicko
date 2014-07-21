@@ -1,0 +1,162 @@
+#
+# SECURITY WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+#
+# If you don't protect this directory from direct web access, anybody will be able to see your passwords.
+# http://nette.org/security-warning
+#
+parameters:
+	image:
+		thumbnailX: 160	# náhledy
+		thumbnailY: 160
+	prozdravi:
+		id: 71979
+
+php:
+	date.timezone: Europe/Prague
+
+nette:
+	application:
+#		debugger: true
+		errorPresenter: Error
+		mapping:
+			*: App\*Module\Presenters\*Presenter
+
+
+
+services:
+	authorizator: App\Model\Security\Authorizator
+	authenticator: App\Model\Security\UserManager(@repositories.userRepository)
+
+	emailModel:
+		class: App\Model\EmailModel
+		tags: [kdyby.subscriber]
+#	authenticator: App\Model\Security\UserManager(@App\Model\UserModel)
+
+#	translator.translator:
+#		setup:
+#			- '$service->addDictionary(new TranslatorModule\Dictionary(?))'(%appDir%/model/translations)
+
+#	- App\Model\UserManager
+#	router: App\RouterFactory()::createRouter
+#	- App\Entities\ArticleEntity()
+
+#	- App\Entities\CatalogCategoryEntity(@doctrine.dao(App\Entity\CatalogCategoryEntity))
+#	- App\AdminModule\Repositories\CatalogRepository(@doctrine.dao(App\Entities\CatalogCategoryEntity))
+	- App\AdminModule\Repositories\CatalogItemRepository(@doctrine.dao(App\Entities\CatalogItemEntity))
+
+	repositories.categoryRepository: App\AdminModule\Repositories\CatalogRepository(@doctrine.dao(App\Entities\CatalogCategoryEntity))
+	repositories.userRepository: App\AdminModule\Repositories\UserRepository(@doctrine.dao(App\Entities\UserEntity))
+	repositories.accessRepository: App\AdminModule\Repositories\AccessRepository(@doctrine.dao(App\Entities\AccessEntity))
+
+	models.accessModel: App\Model\AccessModel
+	models.imageModel: App\Model\ImageModel(%wwwDir%, %image%)
+
+	- App\Model\Common(%prozdravi%)
+	- App\Model\ProductModel(@doctrine.dao(App\Entities\CatalogCategoryEntity))
+
+
+	- App\RouterFactory
+	router: @App\RouterFactory::createRouter
+
+	entities.articleRepository:
+		class: App\Entities\ArticleEntity
+
+	entities.catalogCategoryRepository:
+		class: App\Entities\CatalogCategoryEntity
+
+	entities.catalogItemRepository:
+		class: App\Entities\CatalogItemEntity
+
+
+	doctrine.migration.diffCommand:
+		class: App\Doctrine\Console\MigrationsDiffCommand
+		tags: [kdyby.console.command]
+
+	doctrine.migrations.executeCommand:
+		class: App\Doctrine\Console\MigrationsExecuteCommand
+		tags: [kdyby.console.command]
+
+	doctrine.migrations.generateCommand:
+		class: App\Doctrine\Console\MigrationsGenerateCommand
+		tags: [kdyby.console.command]
+
+	doctrine.migrations.latestCommand:
+		class: App\Doctrine\Console\MigrationsLatestCommand
+		tags: [kdyby.console.command]
+
+	doctrine.migrations.migrateCommand:
+		class: App\Doctrine\Console\MigrationsMigrateCommand
+		tags: [kdyby.console.command]
+
+	doctrine.migrations.statusCommand:
+		class: App\Doctrine\Console\MigrationsStatusCommand
+		tags: [kdyby.console.command]
+
+	doctrine.migrations.versionCommand:
+		class: App\Doctrine\Console\MigrationsVersionCommand
+		tags: [kdyby.console.command]
+
+#	wlCssFilter: WebLoader\Filter\CssUrlsFilter(%wwwDir%)
+#	lessFilter: WebLoader\Filter\LessFilter
+
+	forms.articleFormFactory:
+		implement: App\AdminModule\Forms\IArticleFactory
+#		factory: App\AdminModule\Forms\ArticleForm(null, null, @entities.articleRepository, @Kdyby\Doctrine\EntityManager)
+
+	forms.catalogCategoryFormFactory:
+		implement: App\AdminModule\Forms\ICategoryFactory
+
+	forms.catalogProductFormFactory:
+		implement: App\AdminModule\Forms\IProductFactory
+
+	forms.userFormFactory:
+		implement: App\AdminModule\Forms\IUserLoginFactory
+
+
+
+
+#	cacheStorage:
+#		class: Nette\Caching\Storages\MemcachedStorage()
+
+
+#	catalog.pages.catalog.categoryRepository:
+#		class: CatalogModule\Pages\Catalog\CategoryRepository
+#		factory: @entityManager::getRepository('CatalogModule\Pages\Catalog\CategoryEntity')
+#		tags: [proxy: DoctrineModule\Repositories\BaseRepository]
+
+
+
+
+translation:
+	debugger: off
+	default: cs
+	whitelist: [cs, en, de] #....
+	fallback: [cs_CZ, cs]
+
+#	cacheStorage:
+#		class: Nette\Caching\Storages\MemcachedStorage()
+
+
+
+google:
+	clientId: "2d93a3e822b6-ac8e06fdb68ac8e06fda221e05cfe042.apps.googleusercontent.com"
+	clientSecret: "5A7979_ed14aff7f9bc0a_dC"
+	returnUri: ':Forum:Categories:'(do=login-google-response)
+
+facebook:
+	appId: "1234567890"
+	appSecret: "e807f1fcf82d132f9bb018ca6738a19f"
+	permissions: [email]
+
+extensions:
+	translation: Kdyby\Translation\DI\TranslationExtension
+	redis: Kdyby\Redis\DI\RedisExtension
+	console: Kdyby\Console\DI\ConsoleExtension
+	events: Kdyby\Events\DI\EventsExtension
+	annotations: Kdyby\Annotations\DI\AnnotationsExtension
+	doctrine: Kdyby\Doctrine\DI\OrmExtension
+#	webloader: WebLoader\Nette\Extension
+	renderer: Kdyby\BootstrapFormRenderer\DI\RendererExtension
+	google: Kdyby\Google\DI\GoogleExtension
+	facebook: Kdyby\Facebook\DI\FacebookExtension
+	replicator: Kdyby\Replicator\DI\ReplicatorExtension

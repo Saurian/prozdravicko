@@ -1,0 +1,44 @@
+{block content}
+
+   <div class="span9">
+		<div class="row">
+			<!-- portfolio_block -->
+			<div class="projects">
+				{foreach $items as $item}
+				<div class="element category01 span3" data-category="category01">
+					<div class="hover_img">
+						<img src="{$basePath}/data/images/thumbnails/{$item->image}" alt="">
+						<span class="portfolio_zoom"><a href="{$basePath}/data/images/full/{$item->image}" rel="prettyPhoto[portfolio1]"></a></span>
+						<span class="portfolio_link"><a n:href="productDetail id=>$item->id">Prohlédnout</a></span>
+					</div>
+					<div class="item_description">
+						<h6><a n:href="productDetail id=>$item->id">{$item->name}</a></h6>
+						<div class="descr">{!$item->text|striptags|truncate:180}</div>
+					</div>
+				</div>
+				{/foreach}
+			</div>
+			<!-- //portfolio_block -->
+		</div>
+	</div>
+
+
+	{*
+	{if isset($articles['provize'])}
+		{foreach $articles['provize'] as $article}
+			{!$article->text}
+		{/foreach}
+	{/if}
+	*}
+
+
+{/block}
+
+{block scripts}
+{include parent}
+{*<script src="http://jush.sourceforge.net/jush.js"></script>*}
+{/block}
+
+
+{block head}
+{/block}

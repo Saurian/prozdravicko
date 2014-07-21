@@ -1,0 +1,84 @@
+parameters:
+
+	testUser:
+		login: admin
+		password: 789
+
+	dibiConnect:
+		charset: utf8
+		driver: mysql
+		host: localhost
+		username: saurian
+		password: 789
+		database: devrun_prozdravicko_test
+
+	doctrineConnect:
+		charset: UTF8
+		driver: pdo_mysql
+		user: saurian
+		password: 789
+		dbname: devrun_prozdravicko_test
+
+	appDir: "/../app"
+	prozdravi:
+		debugger: true
+
+
+nette:
+	container:
+		accessors: true
+
+	session:
+		expiration: 14 days
+		autoStart: true
+		save_path: %tempDir%/sessions
+
+#webloader:
+#	css:
+#		default:
+#			files:
+#				- screen.css
+#				- {files: ["*.css", "*.less"], from: %appDir%/presenters} # Nette\Utils\Finder support
+
+
+doctrine:
+	charset: UTF8
+	driver: pdo_mysql
+	user: saurian
+	password: 789
+	dbname: devrun_prozdravicko_test
+#	autoGenerateProxyClasses: %debugMode%
+#	proxyDir: "%appDir%/proxy"
+#	proxyNamespace: "proxy"
+
+
+
+#	metadataCache: memcache
+#	metadataCache: memcache(@memcache.client)
+#	queryCache: memcache(@memcache.client)
+#	resultCache: memcache(@memcache.client)
+#	hydrationCache: memcache(@memcache.client)
+
+	metadata:
+#		App\Entities: %appDir%/entities
+		App: annotations("%appDir%/entities")
+#	metadataCache: xcache
+	cacheClass: DoctrineModule\Cache
+
+#redis:
+#	journal: on
+#	storage: on
+#	session: on
+
+console:
+    url: http://pro-zdravicko.local
+
+services:
+	cacheStorage:
+		class: Nette\Caching\Storages\MemoryStorage
+
+	session:
+		class: Devrun\Tests\Http\FakeSession
+
+#	userStorage1: App\Model\Security\DummyUserStorage
+#		class: App\Model\Security\DummyUserStorage

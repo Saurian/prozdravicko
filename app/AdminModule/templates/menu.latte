@@ -1,0 +1,125 @@
+<div class="navbar navbar-default Qnavbar-fixed-top navbar-inverse navigation" n:snippet="navigation">
+
+	<div class="navbar-container" id="navbar-container">
+		<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler">
+			<span class="sr-only">Toggle sidebar</span>
+
+			<span class="icon-bar"></span>
+
+			<span class="icon-bar"></span>
+
+			<span class="icon-bar"></span>
+		</button>
+
+		<div class="navbar-header pull-left">
+			<a class="ajax navbar-brand"
+			   href="{$presenter->link(':Admin:Dashboard:')}">
+				<small>
+					<i class="fa fa-leaf"></i>
+					Devrun: <span>CMS</span>
+				</small>
+			</a>
+
+			<div class="navbar-collapse collapse">
+				{if $presenter->user->isLoggedIn() && !isset($hideMenuItems)}
+				<ul class="nav navbar-nav">
+					{if !$presenter instanceof CmsModule\Administration\Presenters\PanelPresenter && false}
+						{var $pages = $presenter->getContext()->cms->administrationManager->getAdministrationNavigation()}
+						{foreach $pages as $category=>$items}
+							{var $ok = false}
+							{capture $nav}
+								<li class="dropdown">
+									<a class="dropdown-toggle" href="javaScript:;" data-toggle="dropdown">{_$category}</a>
+
+									<ul class="dropdown-menu">
+										{foreach $items as $link=>$item}
+											{if $presenter->isAuthorized(':' . $link)}
+												{var $ok = true}
+												<li>
+													<a class="ajax"
+													   href="{plink :$link}">{_$item['name']}{if isset($item["description"]) && $item["description"]}
+															<span>{_$item["description"]}</span>{/if}</a>
+												</li>
+											{/if}
+										{/foreach}
+									</ul>
+								</li>
+							{/capture}
+							{if $ok}{!$nav}{/if}
+						{/foreach}
+					{/if}
+				</ul>
+				{if $presenter instanceof CmsModule\Administration\Presenters\PanelPresenter}
+				<ul class="nav navbar-nav">
+					<li>
+						<a id="venne-panel-button-edit" href="javascript:;"><span class="glyphicon glyphicon-edit glyphicon-white"></span> {_'Edit layout'}</a>
+					</li>
+					<li>
+						<a id="venne-panel-button-save" href="javascript:;"><span class="glyphicon glyphicon-ok glyphicon-white"></span> {_'Save layout'}</a>
+					</li>
+				</ul>
+				{/if}
+				{/if}
+			</div>
+
+		</div>
+
+		<div class="navbar-buttons navbar-header pull-right" role="navigation">
+			<ul class="nav ace-nav">
+				<li class="grey">
+					<a n:href=":Admin:User:logout">Logout</a>
+				</li>
+				<li class="grey">
+					<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+						<i class="ace-icon fa fa-tasks"></i>
+						<span class="badge badge-grey">4</span>
+					</a>
+
+					<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+						<li class="dropdown-header">
+							<i class="ace-icon fa fa-check"></i>
+							4 Tasks to complete
+						</li>
+
+						<li>
+							<a href="#">
+								<div class="clearfix">
+									<span class="pull-left">Software Update</span>
+									<span class="pull-right">65%</span>
+								</div>
+
+								<div class="progress progress-mini">
+									<div style="width:65%" class="progress-bar"></div>
+								</div>
+							</a>
+						</li>
+
+						<li>
+							<a href="#">
+								<div class="clearfix">
+									<span class="pull-left">Bug Fixes</span>
+									<span class="pull-right">90%</span>
+								</div>
+
+								<div class="progress progress-mini progress-striped active">
+									<div style="width:90%" class="progress-bar progress-bar-success"></div>
+								</div>
+							</a>
+						</li>
+
+						<li class="dropdown-footer">
+							<a href="#">
+								See tasks with details
+								<i class="ace-icon fa fa-arrow-right"></i>
+							</a>
+						</li>
+					</ul>
+				</li>
+
+			</ul>
+		</div>
+		</div>
+<!-- /.navbar-container -->
+</div>
+
+

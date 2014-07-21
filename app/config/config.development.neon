@@ -1,0 +1,64 @@
+parameters:
+
+	prozdravi:
+		debugger: true
+
+nette:
+	debugger:
+		bar:
+			- Nette\Bridges\DITracy\ContainerPanel
+		maxDepth: 4
+		maxLen: 500
+		showLocation: true
+	container:
+		accessors: true
+
+	application:
+		debugger: true
+		errorPresenter: Error
+		mapping:
+			*: App\*Module\Presenters\*Presenter
+
+	session:
+		expiration: 14 days
+		autoStart: smart
+		save_path: %tempDir%/sessions
+
+doctrine:
+	charset: UTF8
+	driver: pdo_mysql
+	user: saurian
+	password: 789
+	dbname: devrun_prozdravicko
+	autoGenerateProxyClasses: %debugMode%
+	proxyDir: "%tempDir%/proxies"
+	proxyNamespace: "proxy"
+
+
+
+#	metadataCache: memcache
+#	metadataCache: memcache(@memcache.client)
+#	queryCache: memcache(@memcache.client)
+#	resultCache: memcache(@memcache.client)
+#	hydrationCache: memcache(@memcache.client)
+
+	metadata:
+#		App\Entities: %appDir%/entities
+		App: annotations("%appDir%/entities")
+#	metadataCache: xcache
+	cacheClass: DoctrineModule\Cache
+
+#redis:
+#	journal: on
+#	storage: on
+#	session: on
+
+console:
+    url: http://www.kdyby.org
+
+#webloader:
+#	css:
+#		default:
+#			files:
+#				- screen.css
+#				- {files: ["*.css", "*.less"], from: %appDir%/presenters} # Nette\Utils\Finder support

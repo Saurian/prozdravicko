@@ -1,0 +1,13 @@
+PHP 5.4.16 | "php-cgi"  | 33 threads
+
+-- FAILED: pro-zdravicko.cz\tests\ExampleTest.phpt
+   Failed: FALSE should be TRUE in testSomething()
+   
+   in pro-zdravicko.cz\tests\ExampleTest.phpt(40) Tester\Assert::true()
+   in [internal function]Test\ExampleTest->testSomething()
+   in Tester\Framework\TestCase.php(130) call_user_func_array()
+   in Tester\Framework\TestCase.php(113) Tester\TestCase->runTest()
+   in Tester\Framework\TestCase.php(48) Tester\TestCase->runMethod()
+   in pro-zdravicko.cz\tests\ExampleTest.phpt(48) Tester\TestCase->run()
+
+FAILURES! (1 tests, 1 failures)

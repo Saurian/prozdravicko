@@ -1,0 +1,47 @@
+{block content}
+
+	{foreach $catalog as $cat}
+		{$cat->name|truncate:40}
+
+		{!$cat->text}
+
+	{/foreach}
+
+
+	<!--planning-->
+	<div class="wrap planning">
+		<div class="container">
+			<div class="row">
+				<div class="span3">
+					<div class="rounded"><img src="http://template-guide.com/preview/4933/img/img1.jpg" alt=""><div class="inset_shadow"></div></div>
+					<h4>Strategy Focused</h4>
+					<p>Praesent vestibulum molestie lacus. Aenean noy hendrerit mauris. Phasellus porta. Fusce suscipit varius mi.</p>
+					<a href="#" class="btn dark_btn">More Info</a>
+				</div>
+				<div class="span3">
+					<div class="rounded"><img src="http://template-guide.com/preview/4933/img/img2.jpg" alt=""><div class="inset_shadow"></div></div>
+					<h4>Business Planning</h4>
+					<p>Praesent vestibulum molestie lacus. Aenean noy hendrerit mauris. Phasellus porta. Fusce suscipit varius mi.</p>
+					<a href="#" class="btn dark_btn">More Info</a>
+				</div>
+				<div class="span3">
+					<div class="rounded"><img src="http://template-guide.com/preview/4933/img/img3.jpg" alt=""><div class="inset_shadow"></div></div>
+					<h4>Maintaining</h4>
+					<p>Praesent vestibulum molestie lacus. Aenean noy hendrerit mauris. Phasellus porta. Fusce suscipit varius mi.</p>
+					<a href="#" class="btn dark_btn">More Info</a>
+				</div>
+				<div class="span3">
+					<div class="rounded"><img src="http://template-guide.com/preview/4933/img/img4.jpg" alt=""><div class="inset_shadow"></div></div>
+					<h4>Client Support</h4>
+					<p>Praesent vestibulum molestie lacus. Aenean noy hendrerit mauris. Phasellus porta. Fusce suscipit varius mi.</p>
+					<a href="#" class="btn dark_btn">More Info</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--//planning-->
+
+
+
+
+{/block}

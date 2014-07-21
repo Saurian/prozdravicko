@@ -1,0 +1,191 @@
+{**
+ * @param string   $basePath web base path
+ * @param array    $flashes  flash messages
+ *}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta charset="utf-8" />
+	<title>{ifset #title}{include title|striptags} | {/ifset}Dashboard - Ace Admin</title>
+
+	<meta name="description" content="overview &amp; stats" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<link rel="shortcut icon" href="{$basePath}/favicon-admin.png">
+
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/bootstrap.3.1.1.min.css">
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/font-awesome.min.css">
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/ace.min.css">
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/ace-skins.min.css">
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/ace-rtl.min.css">
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/grido.css">
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!--[if lte IE 8]>
+	<script src="{$basePath}/js/html5shiv.js"></script>
+	<script src="{$basePath}/js/respond.min.js"></script>
+	<![endif]-->
+
+	<!--[if !IE]-->
+	<script src="{$basePath}/js/jquery.2.1.0.min.js"></script>
+	<!--[endif]-->
+
+	<!--[if IE]>
+	<script src="{$basePath}/js/jquery.min.js"></script>
+	<![endif]-->
+
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
+
+	{* {control css} *}
+
+
+	{block head}{/block}
+</head>
+
+<body class="skin-1">
+	<script> document.documentElement.className+=' js' </script>
+	{* Top navigation *}
+	{include 'menu.latte'}
+
+	<div class="main-container" id="content"{if isset($_panel)} style="margin-left: 310px;"{/if}>
+
+		<div id="sidebar" class="sidebar responsive">
+			<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+				<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+					<button class="btn btn-success"><i class="ace-icon fa fa-signal"></i></button>
+					<button class="btn btn-info"><i class="ace-icon fa fa-pencil"></i></button>
+					<button class="btn btn-warning"><i class="ace-icon fa fa-users"></i></button>
+					<button class="btn btn-danger"><i class="ace-icon fa fa-cogs"></i></button>
+				</div>
+
+				<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+					<span class="btn btn-success"></span>
+					<span class="btn btn-info"></span>
+					<span class="btn btn-warning"></span>
+					<span class="btn btn-danger"></span>
+				</div>
+			</div>
+			<!-- /.sidebar-shortcuts -->
+			{include 'sidebar.latte'}
+
+			<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+				<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left"
+				   data-icon2="ace-icon fa fa-angle-double-right"></i>
+			</div>
+		</div>
+
+
+		<div class="main-content">
+
+			<div class="breadcrumbs" n:snippet="breadcrumbs">
+				{block #breadcrumb-container}
+					<ul class="breadcrumb">
+						{block #breadcrumb}
+							<li>
+								<a class="ajax" href="{$presenter->link(':Admin:Dashboard:')}"><span class="glyphicon glyphicon-globe"></span>{_Dashboard}</a>
+							</li>
+						{/block}
+						<li class="active">Dashboard</li>
+					</ul><!-- /.breadcrumb -->
+				{/block}
+
+				<div class="nav-search" id="nav-search">
+					<form class="form-search">
+						<span class="input-icon">
+							<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+							<i class="ace-icon fa fa-search nav-search-icon"></i>
+						</span>
+					</form>
+				</div><!-- /.nav-search -->
+				<h1 class="pull-left" style="margin: 0px 0 0 0px;">{block #header}{/block}</h1>
+			</div>
+
+			<div class="page-content">
+				{include 'settingsPanel.latte'}
+
+				<div class="row">
+					<div class="col-xs-12">
+						<!-- PAGE CONTENT BEGINS -->
+						<div class="well" n:snippet="content">
+
+							<div n:foreach="$flashes as $flash" class="flash bg-{$flash->type}">{$flash->message}</div>
+
+							{*{control flashMessage TRUE}*}
+
+							{block #toolbar}
+								<ul id="toolbar" class="nav nav-tabs">
+									{block #toolbar-items}{/block}
+								</ul>
+							{/block}
+							{include #content}
+						</div>
+					</div>
+				</div>
+
+			</div><!-- /.page-content -->
+
+
+
+			<div class="footer">
+				<div class="footer-inner">
+					<div class="footer-content">
+						<span class="bigger-120">
+							<span class="blue bolder">Devrun</span>
+							Software &copy; 2014-2015
+						</span>
+						&nbsp; &nbsp;
+						<span class="action-buttons">
+							<a href="#">
+								<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
+							</a>
+
+							<a href="#">
+								<i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
+							</a>
+
+							<a href="#">
+								<i class="ace-icon fa fa-rss-square orange bigger-150"></i>
+							</a>
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+			</a>
+		</div>
+
+	</div>
+
+
+
+
+
+	{*{control js}*}
+	{block scripts}
+	<script src="{$basePath}/js/bootstrap.3.1.1.min.js"></script>
+	<script src="{$basePath}/js/jquery-ui.custom.min.js"></script>
+	<script src="{$basePath}/js/netteForms.js"></script>
+	<script src="{$basePath}/js/nette.ajax.js"></script>
+	<script src="{$basePath}/js/extensions/spinner.ajax.js"></script>
+	<script src="{$basePath}/js/grido.js"></script>
+	<script src="{$basePath}/js/application.js"></script>
+	<script src="{$basePath}/js/ace-extra.min.js"></script>
+	<script src="{$basePath}/js/jquery.ui.touch-punch.min.js"></script>
+	<script src="{$basePath}/js/jquery.easypiechart.min.js"></script>
+	<script src="{$basePath}/js/jquery.sparkline.min.js"></script>
+	<script src="{$basePath}/js/flot/jquery.flot.min.js"></script>
+	<script src="{$basePath}/js/flot/jquery.flot.pie.min.js"></script>
+	<script src="{$basePath}/js/flot/jquery.flot.resize.min.js"></script>
+	<script src="{$basePath}/js/ace-elements.min.js"></script>
+	<script src="{$basePath}/js/ace.min.js"></script>
+	<script src="{$basePath}/js/ckeditor-full/ckeditor.js"></script>
+	{*<script src="{$basePath}/js/ckeditor/adapters/jquery.js"></script>*}
+
+	{/block}
+</body>
+</html>

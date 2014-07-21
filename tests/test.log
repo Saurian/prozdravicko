@@ -1,0 +1,16 @@
+PHP 5.4.16 | "php-cgi"  | 33 threads
+
+-- FAILED: Kdyby\prozdravi\Homepageprvni test. | tests\FrontModule\Homepage.phpt [method=testSomething]
+   Exited with error code 255 (expected 0)
+   Nette\Application\InvalidPresenterException: Cannot load presenter 'Front:Homepage', class 'FrontModule\HomepagePresenter' was not found in 'C:\wamp\www\pro-zdravicko.cz\tests/FrontModule/presenters/HomepagePresenter.php'.
+   
+   in src\Application\PresenterFactory.php(98) 
+   in src\Application\PresenterFactory.php(56) Nette\Application\PresenterFactory->getPresenterClass()
+   in tests\FrontModule\Homepage.phpt(51) Nette\Application\PresenterFactory->createPresenter()
+   in [internal function]DevrunTests\prozdravi\HomepageTest->testSomething()
+   in Tester\Framework\TestCase.php(130) call_user_func_array()
+   in Tester\Framework\TestCase.php(113) Tester\TestCase->runTest()
+   in Tester\Framework\TestCase.php(51) Tester\TestCase->runMethod()
+   in tests\FrontModule\Homepage.phpt(61) Tester\TestCase->run()
+
+FAILURES! (1 tests, 1 failures)

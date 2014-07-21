@@ -1,0 +1,93 @@
+{**
+ * @param string   $basePath web base path
+ * @param array    $flashes  flash messages
+ *}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Pro zdravíčko{ifset #title} | {include title|striptags}{/ifset}</title>
+	<meta name="description" content="{$description}" n:ifset="$description" />
+	<meta name="robots" content="{$robots}" n:ifset="$robots" />
+	<meta content="cs" http-equiv="Content-language">
+	<meta content="{$keywords}" name="keywords" n:ifset="$keywords">
+	<meta content="Devrun software" name="author">
+
+	<link rel="shortcut icon" href="{$basePath}/favicon.png">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Allura' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Anton' rel='stylesheet' type='text/css'>
+
+
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/bootstrap.css">
+	{*<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/theme.css">*}
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/bootstrap-responsive.css">
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	{block head}{/block}
+</head>
+
+<body>
+	<script> document.documentElement.className+=' js' </script>
+	{include "header.latte"}
+	<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
+
+	<!--page_container-->
+	<div class="page_container">
+		{include "slider.latte"}
+
+		<div class="wrap planning">
+			<div class="container">
+				<div class="row">
+
+					<div class="span3">
+						{foreach $categories as $category}
+						<div class=" category">
+							<div class="rounded">
+								<a n:href="detail id => $category->id">
+									<img src="{$basePath}/data/images/thumbnails/{$category->image}" alt="{$category->name}">
+								</a>
+								<div class="inset_shadow"></div>
+							</div>
+							<h4><a n:href="detail id => $category->id">{$category->name}</a></h4>
+							{!$category->text}
+							<a n:href="detail id => $category->id" class="btn dark_btn">Více informací</a>
+						</div>
+						{/foreach}
+
+					</div>
+
+					{include content}
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{include "footer.latte"}
+
+
+
+	{block scripts}
+	<script src="{$basePath}/js/netteForms.js"></script>
+	<script src="{$basePath}/js/jquery.js"></script>
+	<script src="{$basePath}/js/bootstrap.js"></script>
+	<script src="{$basePath}/js/jquery.ui.totop.js"></script>
+	<script src="{$basePath}/js/superfish.js"></script>
+	<script src="{$basePath}/js/jquery.prettyPhoto.js"></script>
+	<script src="{$basePath}/js/jquery.isotope.min.js"></script>
+	<script src="{$basePath}/js/sorting.js"></script>
+	<script src="{$basePath}/js/jquery.prettyLoader.js"></script>
+	<script src="{$basePath}/js/jquery.easing.1.3.js"></script>
+	<script src="{$basePath}/js/main.js"></script>
+	{if $googleAnalytics}<script src="{$basePath}/js/google-analytics.js"></script>{/if}
+	{/block}
+</body>
+</html>

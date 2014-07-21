@@ -1,0 +1,1 @@
+c:\wamp\www\pro-zdravicko.cz\vendor\bin\tester.bat ExampleTest.phpt -c win-php.ini

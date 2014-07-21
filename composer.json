@@ -1,0 +1,36 @@
+{
+    "name": "devrun/pro_zdravicko",
+    "description": "description_text",
+    "minimum-stability": "dev",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "author's name",
+            "email": "email@example.com"
+        }
+    ],
+    "require": {
+        "nette/nette": "2.2.x-dev",
+        "nette/tester": "~1.2.0",
+        "doctrine/migrations": "dev-master@dev",
+        "kdyby/doctrine": "~2.0",
+        "kdyby/validator": "@dev",
+        "kdyby/redis": "@dev",
+        "kdyby/doctrine-forms": "@dev",
+        "kdyby/forms-replicator": "~1.1",
+        "kdyby/bootstrap-form-renderer": "dev-master",
+        "kdyby/facebook": "dev-master",
+        "kdyby/html-validator-panel": "dev-master",
+        "kdyby/google": "dev-master",
+        "o5/grido": "2.0.2",
+        "symfony/yaml": "2.5.x-dev",
+        "janmarek/webloader": "2.2.0",
+        "ckeditor/ckeditor": "4.4.1",
+        "dg/adminer-custom": "v1.4.0",
+        "phpunit/phpunit": "3.7.*",
+        "phpunit/phpunit-selenium": ">=1.2",
+        "dg/dibi": "v2.2.2"
+
+
+    }
+}
