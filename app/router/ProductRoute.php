@@ -38,8 +38,8 @@ class ProductRoute extends Route
                     return null;
                 }
 
-                $parameters         = $appRequest->getParameters();
-                $parameters['year'] = $category->url;
+                $parameters             = $appRequest->getParameters();
+                $parameters['category'] = $category->url;
                 $appRequest->setParameters($parameters);
 
             }
@@ -61,7 +61,7 @@ class ProductRoute extends Route
                 return NULL;
             }
 
-            $parameters['year'] = $category->url;
+            $parameters['category'] = $category->url;
         }
 
         $appRequest->setParameters($parameters);

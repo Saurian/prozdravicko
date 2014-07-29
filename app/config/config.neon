@@ -47,9 +47,12 @@ services:
 	repositories.categoryRepository: App\AdminModule\Repositories\CatalogRepository(@doctrine.dao(App\Entities\CatalogCategoryEntity))
 	repositories.userRepository: App\AdminModule\Repositories\UserRepository(@doctrine.dao(App\Entities\UserEntity))
 	repositories.accessRepository: App\AdminModule\Repositories\AccessRepository(@doctrine.dao(App\Entities\AccessEntity))
+	repositories.catalogProductPriceRepository: App\AdminModule\Repositories\CatalogProductPriceRepository(@doctrine.dao(App\Entities\CatalogProductPriceEntity))
 
 	models.accessModel: App\Model\AccessModel
 	models.imageModel: App\Model\ImageModel(%wwwDir%, %image%)
+	models.webContentLoaderModel: App\Model\WebContentLoaderModel
+	models.sitemapModel: App\Model\SitemapModel
 
 	- App\Model\Common(%prozdravi%)
 	- App\Model\ProductModel(@doctrine.dao(App\Entities\CatalogCategoryEntity))

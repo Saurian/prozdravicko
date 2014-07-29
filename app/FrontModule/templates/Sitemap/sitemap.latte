@@ -1,0 +1,26 @@
+{contentType application/xml}
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+	{foreach $sitemap as $address}
+		{include #item address=> $address}
+	{/foreach}
+
+</urlset>
+
+
+
+{define #item}
+{var $presenter = $address['presenter']}
+{var $action = $address['action']}
+{var $id = $address['id']}
+{var $updated = isset($address['updated']) ? $address['updated'] : null}
+{var $changefreq = isset($address['changefreq']) ? $address['changefreq'] : null}
+{var $priority = isset($address['priority']) ? $address['priority'] : null}
+	<url>
+		<loc>{plink ":Front:$presenter:$action", 'id' => $id}</loc>
+		<lastmod n:if="$updated">{($updated ?: $updated)|date:'%Y-%m-%d'}</lastmod>
+		<changefreq n:if="$changefreq">{$changefreq}</changefreq>
+		<priority n:if="$priority">{if $priority === 10}1.0{else}0.{$priority}{/if}</priority>
+	</url>
+{/define}

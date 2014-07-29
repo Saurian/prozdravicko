@@ -16,11 +16,18 @@ class CatalogItemEntity extends IdentifiedEntity
 {
 
     /**
-     * @var ArrayCollection|CatalogCategoryEntity
+     * @var CatalogCategoryEntity
      * @ORM\ManyToOne(targetEntity="\App\Entities\CatalogCategoryEntity", inversedBy="items")
      * @ORM\JoinColumn(name="catalog_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $category;
+
+    /**
+     * @var ArrayCollection|CatalogProductPriceEntity[]
+     * @ORM\OneToMany(targetEntity="\App\Entities\CatalogProductPriceEntity", mappedBy="product", indexBy="product")
+     * @ORM\JoinColumn(onDelete="CASCADE")
+     */
+    protected $prices;
 
     /**
      * @var string
@@ -108,7 +115,16 @@ class CatalogItemEntity extends IdentifiedEntity
         $this->updated = new DateTime();
     }
 
+    function __construct()
+    {
+        $this->prices = new ArrayCollection();
+    }
 
+
+    function __toString()
+    {
+        return $this->name;
+    }
 
 
 }

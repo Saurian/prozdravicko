@@ -13,7 +13,7 @@ final class DashboardPresenter extends BasePresenter
 
     public function renderDefault()
     {
-        dump($_SERVER);
+
     }
 
 }

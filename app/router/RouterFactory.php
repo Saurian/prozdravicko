@@ -40,7 +40,13 @@ class RouterFactory
         $router[]      = $adminRouter = new RouteList('Admin');
         $adminRouter[] = new Route('admin/[<locale=cs cs|en>/]<presenter>/<action>[/<id>]', 'Dashboard:default');
 
+        $router[]      = $cronRouter = new RouteList('Cron');
+        $cronRouter[] = new Route('cron/<presenter>/<action>[/<id>]', 'Cron:default');
+
         $router[]      = $frontRouter = new RouteList('Front');
+
+        $frontRouter[] = new Route('sitemap.xml', 'Sitemap:sitemap');
+
         $frontRouter[] = new Route('<id>', array(
             'presenter' => 'Homepage',
             'action'    => 'detail',
@@ -54,7 +60,7 @@ class RouterFactory
             ),
         ));
 
-        $productRoute = new ProductRoute('[<year=15>/]<id>', array(
+        $productRoute = new ProductRoute('[<category>/]<id>', array(
             'presenter' => 'Homepage',
             'action'    => 'productDetail',
             'id'        => array(

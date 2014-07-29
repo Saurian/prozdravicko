@@ -1,15 +1,15 @@
 {block content}
-   <div class="span9 text-left">
+   <div itemscope itemtype="http://schema.org/Article" class="span9 text-left">
 		<div class="hover_img auto">
-			<img src="{$basePath}/data/images/full/{$item->image}" alt="">
+			<img itemprop="image" src="{$basePath}/data/images/full/{$item->image}" alt="">
 			<span class="portfolio_link"><a n:href="productDetail id=>$item->id">Více informací</a></span>
 		</div>
 		<div class="item_description full-height">
-			<h1>{$item->name}</h1>
+			<h1 itemprop="name">{$item->name}</h1>
 			<div class="text-center">
-				<a href="{$link}" class="btn btn-info" rel="nofollow">Více informací u prodejce</a>
+				<a itemprop="url" target="_blank" href="{$link}" class="btn btn-info" rel="nofollow">Více informací u prodejce</a>
 			</div>
-			<div class="descr">{!$item->text}</div>
+			<div itemprop="articleBody" class="descr">{!$item->text}</div>
 		</div>
 
 		{if $item->parameters}{include #info, info => $item->parameters, title => 'Paramentry'}{/if}
@@ -23,14 +23,14 @@
 		{if $item->sign}{include #info, info => $item->sign, title => 'Značka'}{/if}
 
 		<div class="text-center">
-			<a href="{$link}" class="btn btn-info" rel="nofollow">Více informací</a>
+			<a itemprop="url" target="_blank" href="{$link}" class="btn btn-info" rel="nofollow">Více informací</a>
 		</div>
 
 	</div>
 {/block}
 
 {block #info}
-	<div class="post well">
+	<div itemprop="articleSection" class="post well">
 		<h2 class="title"><span>{$title}</span></h2>
 		{!$info}
 	</div>

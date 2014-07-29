@@ -9,6 +9,7 @@ use App\AdminModule\Forms\ProductForm;
 use App\AdminModule\Repositories\CatalogRepository;
 use App\Entities\CatalogCategoryEntity;
 use App\Entities\CatalogItemEntity;
+use App\Entities\CatalogProductPriceEntity;
 use Doctrine\ORM\Query;
 use Grido\Grid;
 use Nette\Utils\Strings;
@@ -111,7 +112,6 @@ class CatalogPresenter extends BasePresenter
      * Grids
      * ---------------------------------------------------------------------------------
      */
-
     protected function createComponentCategoryGrid($name)
     {
         $grid = new Grid($this, $name);
@@ -206,13 +206,74 @@ class CatalogPresenter extends BasePresenter
     }
 
 
+    protected function createComponentPricesGrid($name)
+    {
+        $grid = new Grid($this, $name);
+
+        $repository = $this->em->getRepository(CatalogProductPriceEntity::getClassName());
+        $model      = new \Grido\DataSources\Doctrine(
+            $repository->createQueryBuilder('a')
+                ->addSelect('p.name as nazev')
+                ->innerJoin('a.product', 'p'),
+            array('product' => 'p.nazev')); // Map country column to the title of the Country entity
+
+
+        $grid->model = $model;
+
+        $grid->addColumnText('product', 'Product')
+            ->setCustomRender(function ($entity) {
+                return $entity->product;
+            })
+            ->setSortable()
+            ->setFilterText();
+
+        $grid->addColumnNumber('price', 'Cena')
+            ->setSortable()
+            ->setFilterNumber()
+            ->setSuggestion();
+
+        $grid->addColumnText('accepted', 'Acceptováno')
+            ->setCustomRender(function ($entity) {
+                return $entity->accepted == true ? 'ano' : 'ne';
+            })
+            ->setSortable()
+            ->setFilterText();
+
+        $grid->addColumnText('readOk', 'Přečteno správně')
+            ->setCustomRender(function ($entity) {
+                return $entity->readOk == true ? 'ano' : 'ne';
+            })
+            ->setSortable()
+            ->setFilterText();
+
+
+        $grid->addColumnDate('created', 'Datum zápisu')
+            ->setSortable()
+            ->setFilterDate();
+
+
+        $grid->addActionHref('categoryEdit', 'Edit')
+            ->setIcon('pencil');
+
+        $grid->addActionHref('categoryDelete', 'Delete')
+            ->setIcon('trash')
+            ->setConfirm(function ($item) {
+                return "Are you sure you want to delete ?";
+            });
+
+        $operation = array('print' => 'Print', 'delete' => 'Delete');
+//        $grid->setOperation($operation, $this->gridOperationsHandler)->setConfirm('delete', 'Are you sure you want to delete %i items?');
+//        $grid->filterRenderType = $this->filterRenderType;
+        $grid->setExport();
+
+    }
+
+
     /*
      * ---------------------------------------------------------------------------------
      * Components
      * ---------------------------------------------------------------------------------
      */
-
-
     protected function createComponentCategoryForm()
     {
         $form = $this->categoryFormFactory->create();
@@ -232,7 +293,6 @@ class CatalogPresenter extends BasePresenter
      * Services
      * ---------------------------------------------------------------------------------
      */
-
     private function redirectDefault()
     {
         $this->redirect(':Admin:Catalog:');
