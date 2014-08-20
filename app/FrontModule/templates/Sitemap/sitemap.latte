@@ -18,7 +18,7 @@
 {var $changefreq = isset($address['changefreq']) ? $address['changefreq'] : null}
 {var $priority = isset($address['priority']) ? $address['priority'] : null}
 	<url>
-		<loc>{plink ":Front:$presenter:$action", 'id' => $id}</loc>
+		<loc>{plink "//:Front:$presenter:$action", 'id' => $id}</loc>
 		<lastmod n:if="$updated">{($updated ?: $updated)|date:'%Y-%m-%d'}</lastmod>
 		<changefreq n:if="$changefreq">{$changefreq}</changefreq>
 		<priority n:if="$priority">{if $priority === 10}1.0{else}0.{$priority}{/if}</priority>

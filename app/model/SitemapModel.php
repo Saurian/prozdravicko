@@ -8,6 +8,7 @@ use App\Entities\CatalogCategoryEntity;
 use Doctrine\ORM\Query;
 use Kdyby\Doctrine\EntityDao;
 use Kdyby\Doctrine\EntityManager;
+use Nette\Utils\DateTime;
 
 class SitemapModel extends AbstractModel
 {
@@ -29,6 +30,13 @@ class SitemapModel extends AbstractModel
     {
         $result     = array();
         $categories = $this->catalogRepository->findBy(array());
+
+        $result[] = array(
+            'presenter' => 'Homepage',
+            'action'    => 'default',
+            'id'        => null,
+            'updated'   => new DateTime(),
+        );
 
         foreach ($categories as $category) {
             $result[] = array(

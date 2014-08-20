@@ -45,7 +45,10 @@ class RouterFactory
 
         $router[]      = $frontRouter = new RouteList('Front');
 
-        $frontRouter[] = new Route('sitemap.xml', 'Sitemap:sitemap');
+        $frontRouter[] = new Route('sitemap.xml', array(
+            'presenter' => 'Sitemap',
+            'action'    => 'sitemap',
+        ));
 
         $frontRouter[] = new Route('<id>', array(
             'presenter' => 'Homepage',

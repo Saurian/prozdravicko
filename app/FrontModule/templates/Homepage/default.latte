@@ -7,12 +7,12 @@
 				{foreach $items as $item}
 				<div itemscope itemtype="http://schema.org/Product" class="element category01 span3" data-category="category01">
 					<div class="hover_img">
-						<img itemprop="image" src="{$basePath}/data/images/thumbnails/{$item->image}" alt="">
+						<img itemprop="image" src="{$basePath}/data/images/thumbnails/{$item->image}" alt="{$item->image}">
 						<span class="portfolio_zoom"><a href="{$basePath}/data/images/full/{$item->image}" rel="prettyPhoto[portfolio1]"></a></span>
 						<span class="portfolio_link"><a itemprop="url" n:href="productDetail id=>$item->id">Prohlédnout</a></span>
 					</div>
 					<div class="item_description">
-						<h6><a itemprop="url" n:href="productDetail id=>$item->id">{$item->name}</a></h6>
+						<h6><a itemprop="url" n:href="productDetail id=>$item->id"><span itemprop="name">{$item->name}</span></a></h6>
 						<div class="descr" itemprop="description">{!$item->text|striptags|truncate:180}</div>
 					</div>
 				</div>

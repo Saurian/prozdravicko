@@ -1,0 +1,19 @@
+{block content}
+	<div class="widget-box">
+		<div class="widget-body">
+			<div class="widget-main">
+				<div class="btn-toolbar">
+					<div class="btn-group">
+						<a class="btn btn-primary btn-white btn-sm" n:href=":Cron:Cron:setActualPrices">
+							<i class="ace-icon fa fa-check bigger-110 blue"></i>
+							Spustit cron ručně
+						</a>
+					</div>
+				</div>
+
+				{control pricesGrid}
+
+			</div>
+		</div>
+	</div>
+{/block}

@@ -31,4 +31,16 @@ class Common extends Object
     }
 
 
+    /**
+     * odstraní mezery z čísla
+     *
+     * @param $price
+     *
+     * @return int
+     */
+    public function numericDBFormat($price)
+    {
+        return intval(preg_replace('/[^0-9]/', '', $price));
+    }
+
 } 

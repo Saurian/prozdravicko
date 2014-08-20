@@ -17,7 +17,6 @@ use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\Query;
 use Kdyby\Doctrine\EntityDao;
 use Nette\Object;
-use Tracy\Debugger;
 
 class CatalogItemRepository extends Object
 {
@@ -46,21 +45,69 @@ class CatalogItemRepository extends Object
     }
 
 
-    public function findByCategory($id)
+    public function findByLastAcceptedPrice($id)
     {
-        return $this->dao->getEntityManager()->createQueryBuilder()
-            ->select('e', 'i')
-            ->from(CatalogCategoryEntity::getClassName(), 'e')
-            ->leftJoin('e.items', 'i')
+
+//        $sub_query = $this->dao->createQueryBuilder()
+//            ->addSelect('w.price')
+//            ->from(CatalogProductPriceEntity::getClassName(), 'w')
+//            ->where('w.product = ?1')
+//            ->setParameter('1', $id)
+//            ->setMaxResults(1)
+//            ->getDQL();
+//
+//        die(dump($sub_query));
+//
+//        die(dump($sub_query->getQuery()->getArrayResult()));
+
+
+
+//        $query = $this->dao->createQueryBuilder()
+//            ->select('e')
+//            ->addSelect('(' . $sub_query . ') as cislo')
+//            ->from(CatalogItemEntity::getClassName(), 'e')
+////            ->leftJoin('e.prices', 'p')
+//            ->where('e.id = ?1')
+//            ->setParameter('1', $id);
+
+//        $query = $this->dao->createQueryBuilder()
+//            ->select('e')
+//            ->addSelect('(SELECT p1.price
+//            FROM App\Entities\CatalogProductPriceEntity p1
+//            WHERE 1 = p1.product
+//            LIMIT 1
+//            ) AS addresstypeName'
+//            )
+//            ->from(CatalogItemEntity::getClassName(), 'e')
+//            ->leftJoin('e.prices', 'p');
+//
+
+//        $result = $query->getQuery()->getArrayResult();
+//
+//
+//
+//        die(dump($result));
+//
+//
+//        $subQuery = $this->dao->createQueryBuilder()
+//            ->select('p')
+//            ->andWhere('p.accepted = :accepted')
+//            ->orderBy('p.created', 'DESC')
+//            ->setMaxResults(1);
+//
+
+        return $this->dao->createQueryBuilder()
+            ->select('e', 'p')
+            ->from(CatalogItemEntity::getClassName(), 'e')
+            ->leftJoin('e.prices', 'p')
             ->where("e.id = ?1")
-            ->orderBy('i.name', 'ASC')
+            ->andWhere('p.accepted = :accepted')
+            ->orderBy('p.created', 'DESC')
+            ->setMaxResults(1)
             ->setParameter('1', $id)
+            ->setParameter('accepted', true)
             ->getQuery()
-            ->getResult();
-//            ->getSingleResult();
-
-
-        die(dump($result));
+            ->getOneOrNullResult();
 
     }
 

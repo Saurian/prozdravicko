@@ -6,6 +6,7 @@ use App\AdminModule\Forms\CategoryForm;
 use App\AdminModule\Forms\ICategoryFactory;
 use App\AdminModule\Forms\IProductFactory;
 use App\AdminModule\Forms\ProductForm;
+use App\AdminModule\Repositories\CatalogProductPriceRepository;
 use App\AdminModule\Repositories\CatalogRepository;
 use App\Entities\CatalogCategoryEntity;
 use App\Entities\CatalogItemEntity;
@@ -31,6 +32,9 @@ class CatalogPresenter extends BasePresenter
 
     /** @var CatalogRepository @inject */
     public $categoryRepository;
+
+    /** @var CatalogProductPriceRepository @inject */
+    public $categoryPriceRepository;
 
     /** @var ICategoryFactory @inject */
     public $categoryFormFactory;
@@ -103,7 +107,29 @@ class CatalogPresenter extends BasePresenter
 
         $form->setDefaultsFromEntity($entity);
         $form->setRedirect('Catalog:');
+    }
 
+
+    public function actionPriceToggle($id)
+    {
+        $entity = $this->em->getDao(CatalogProductPriceEntity::getClassName())->find($id);
+        if (!$entity) {
+            $this->error('Record not found');
+        }
+
+        $entity->accepted = !$entity->accepted;
+        $this->em->getDao(CatalogProductPriceEntity::getClassName())->save($entity);
+
+        $this->flashMessage('Cena upravena');
+        $this->redirect('Catalog:prices');
+    }
+
+
+    public function actionPriceDelete($id)
+    {
+        $this->categoryPriceRepository->delete($id);
+        $this->flashMessage('Price was deleted');
+        $this->redirect('Catalog:prices');
     }
 
 
@@ -252,20 +278,39 @@ class CatalogPresenter extends BasePresenter
             ->setFilterDate();
 
 
-        $grid->addActionHref('categoryEdit', 'Edit')
+        $grid->addActionHref('priceToggle', 'Toggle')
             ->setIcon('pencil');
 
-        $grid->addActionHref('categoryDelete', 'Delete')
+        $grid->addActionHref('priceDelete', 'Delete')
             ->setIcon('trash')
             ->setConfirm(function ($item) {
                 return "Are you sure you want to delete ?";
             });
 
-        $operation = array('print' => 'Print', 'delete' => 'Delete');
-//        $grid->setOperation($operation, $this->gridOperationsHandler)->setConfirm('delete', 'Are you sure you want to delete %i items?');
+        $operation = array('enableAccepted' => 'Acceptovat', 'disableAccepted' => 'Neacceptovat', 'delete' => 'Smazat');
+        $grid->setOperation($operation, $this->gridOperationsHandler)->setConfirm('delete', 'Are you sure you want to delete %i items?');
 //        $grid->filterRenderType = $this->filterRenderType;
         $grid->setExport();
 
+    }
+
+
+    /**
+     * Handler for operations.
+     * @param string $operation
+     * @param array $id
+     */
+    public function gridOperationsHandler($operation, $id)
+    {
+        die(dump($id));
+        if ($id) {
+            $row = implode(', ', $id);
+            $this->flashMessage("Process operation '$operation' for row with id: $row...", 'info');
+        } else {
+            $this->flashMessage('No rows selected.', 'error');
+        }
+
+        $this->redirect($operation, array('id' => $id));
     }
 
 

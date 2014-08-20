@@ -1,3 +1,7 @@
+{* $item = product *}
+{* $price = cena *}
+
+
 {block content}
    <div itemscope itemtype="http://schema.org/Article" class="span9 text-left">
 		<div class="hover_img auto">
@@ -7,6 +11,7 @@
 		<div class="item_description full-height">
 			<h1 itemprop="name">{$item->name}</h1>
 			<div class="text-center">
+				<p n:ifset="$price" class="mute">přibližná cena {$price} Kč</p>
 				<a itemprop="url" target="_blank" href="{$link}" class="btn btn-info" rel="nofollow">Více informací u prodejce</a>
 			</div>
 			<div itemprop="articleBody" class="descr">{!$item->text}</div>
@@ -35,3 +40,5 @@
 		{!$info}
 	</div>
 {/block}
+
+{block #title}{$item->name}{/block}

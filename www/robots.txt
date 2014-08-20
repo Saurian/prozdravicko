@@ -1,1 +1,2 @@
-# robots.txt for all
+User-Agent: *
+Disallow: /admin/
