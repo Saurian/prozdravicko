@@ -4,6 +4,9 @@ namespace App\FrontModule\Presenters;
 
 use App\AdminModule\Repositories\AccessRepository;
 use App\Entities\ArticleEntity;
+use App\FrontModule\components\IMenuFactory;
+use App\FrontModule\components\ISliderFactory;
+use App\FrontModule\components\Slider;
 use App\Model\AccessModel;
 use Tracy\Debugger;
 
@@ -21,6 +24,14 @@ class BasePresenter extends \App\Presenters\BasePresenter
 
     /** @var AccessModel @inject */
     public $accessModel;
+
+    /** @var ISliderFactory @inject */
+    public $slider;
+
+    /** @var \DK\Menu\UI\IControlFactory @inject */
+    public $menuFactory;
+
+
 
     protected $description = "Přírodní produkty pro vaše zdraví.";
     protected $keywords = "Pro zdraví, zdravíčko, pevné zdraví, pro zdravíčko, pro pevné zdraví";
@@ -58,5 +69,19 @@ class BasePresenter extends \App\Presenters\BasePresenter
             $this->accessRepository->add();
         }
     }
+
+
+    protected function createComponentSlider() {
+        return $this->slider->create();
+    }
+
+    /**
+     * @return \DK\Menu\UI\Control
+     */
+    protected function createComponentMenu()
+    {
+        return $this->menuFactory->create();
+    }
+
 
 }

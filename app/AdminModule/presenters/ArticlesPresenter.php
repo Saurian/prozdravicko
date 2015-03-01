@@ -4,6 +4,7 @@ namespace App\AdminModule\Presenters;
 
 use App\AdminModule\Forms\ArticleForm;
 use App\AdminModule\Forms\IArticleFactory;
+use App\AdminModule\repositories\ArticleRepository;
 use App\Entities\ArticleEntity;
 use Grido\Grid;
 use Kdyby\BootstrapFormRenderer\BootstrapRenderer;
@@ -19,11 +20,26 @@ use Nette\Utils\DateTime;
 class ArticlesPresenter extends BasePresenter
 {
 
-    /** @var ArticleEntity @inject */
-    public $article;
-
     /** @var IArticleFactory @inject */
     public $articleFormFactory;
+
+    /** @var ArticleEntity @inject */
+    public $articleEntity;
+
+    /** @var ArticleRepository @inject */
+    public $articleRepository;
+
+
+
+    protected function startup()
+    {
+        parent::startup();
+
+        if ($this->isAjax()) {
+            $this->setLayout(false);
+        }
+
+    }
 
 
     public function renderDefault()
@@ -35,49 +51,27 @@ class ArticlesPresenter extends BasePresenter
 
     public function actionInsert()
     {
-        if ($this->isAjax()) {
-            $this->setLayout(false);
-        }
-
         /** @var $form ArticleForm */
         $form = $this['articleForm'];
-        $form->onSuccess[] = array($this, 'articleFormSubmitted');
+        $form->setRedirect('Articles:');
     }
 
 
     public function actionEdit($id)
     {
-        if ($this->isAjax()) {
-            $this->setLayout(false);
-        }
+        $this->articleEntity = $this->articleRepository->find($id);
 
         /** @var $form ArticleForm */
         $form = $this['articleForm'];
-        $form->onSuccess[] = array($this, 'articleFormSubmitted');
-//        $form->onSuccess[] = array($this, 'editArticleFormSubmitted');
-        if (!$form->isSubmitted()) {
-            $article = $this->em->createQueryBuilder()
-                ->select('a')
-                ->from('App\Entities\ArticleEntity', 'a')
-                ->where("a.id = ?1")
-                ->setParameter('1', $id)
-                ->getQuery()
-                ->getArrayResult();
-
-            if (!$article) {
-                $this->error('Record not found');
-            }
-            $form->setDefaults($article[0]);
-        }
-
+        $form->setRedirect('Articles:');
     }
 
 
     public function actionDelete($id)
     {
-        $article = $this->em->getRepository($this->article)->find($id);
+        $article = $this->em->getRepository($this->articleEntity)->find($id);
         if ($article) {
-            $this->em->getRepository($this->article)->delete($article);
+            $this->em->getRepository($this->articleEntity)->delete($article);
         }
 
         $this->flashMessage('Article was deleted');
@@ -193,6 +187,10 @@ class ArticlesPresenter extends BasePresenter
     protected function createComponentArticleForm()
     {
         $form = $this->articleFormFactory->create();
+        $mapper = new \Devrun\DoctrineForms\EntityFormMapper($this->em);
+
+        $form->injectEntityMapper($mapper);
+        $form->bindEntity($this->articleEntity);
         return $form;
     }
 

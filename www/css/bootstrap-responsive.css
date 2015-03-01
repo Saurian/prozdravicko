@@ -213,7 +213,7 @@ a
 
 #main_slider .fleft
 {
-    margin: 20px 54px 20px 0;
+    margin: 2em 54px 5em 0;
 }
 
 #main_slider .fright
@@ -236,7 +236,21 @@ a
     padding: 26px 0 28px 0;
     margin: 0;
     line-height: 58px;
-    font-size: 63px;
+    font-size: 48px;
+    color: #80B600;
+    text-shadow: 2px 2px 4px #555;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+}
+
+#main_slider .item .h2
+{
+    padding: 26px 0 28px 0;
+    margin: 0;
+    line-height: 58px;
+    font-size: 48px;
     color: #80B600;
     text-shadow: 2px 2px 4px #555;
     font-family: 'Open Sans', sans-serif;

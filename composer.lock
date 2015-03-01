@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "63973a0d5023157c075f8661ddff5562",
+    "hash": "794e16535ca3d5c97f5ec62e71585540",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -3642,6 +3642,53 @@
             "time": "2014-06-28 09:16:10"
         },
         {
+            "name": "sakren/nette-menu",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sakren/nette-menu.git",
+                "reference": "569b933ad17baa42bdbae345004ede7f56c7e0c9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sakren/nette-menu/zipball/569b933ad17baa42bdbae345004ede7f56c7e0c9",
+                "reference": "569b933ad17baa42bdbae345004ede7f56c7e0c9",
+                "shasum": ""
+            },
+            "require": {
+                "nette/nette": ">= 2.1.0"
+            },
+            "require-dev": {
+                "nette/tester": "@dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "DK\\Menu\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Kudera",
+                    "email": "kudera.d@gmail.com",
+                    "homepage": "http://davidkudera.com"
+                }
+            ],
+            "description": "Menu controls for Nette framework",
+            "homepage": "http://github.com/sakren/nette-menu",
+            "keywords": [
+                "breadcrumbs",
+                "control",
+                "menu",
+                "nette"
+            ],
+            "time": "2014-06-08 18:24:27"
+        },
+        {
             "name": "symfony/config",
             "version": "dev-master",
             "target-dir": "Symfony/Component/Config",
@@ -4092,12 +4139,8 @@
             "time": "2014-06-24 01:18:03"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": [],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "nette/nette": 20,
@@ -4111,10 +4154,7 @@
         "kdyby/google": 20,
         "symfony/yaml": 20
     },
-    "platform": [
-
-    ],
-    "platform-dev": [
-
-    ]
+    "prefer-stable": false,
+    "platform": [],
+    "platform-dev": []
 }

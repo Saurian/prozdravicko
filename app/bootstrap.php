@@ -26,4 +26,6 @@ $configurator->addConfig(__DIR__ . "/config/config.development.neon");
 
 $container = $configurator->createContainer();
 
+\Devrun\DoctrineForms\ToManyContainer::register();
+
 return $container;

@@ -34,9 +34,21 @@ class ArticleEntity extends IdentifiedEntity
 
     /**
      * @var string
+     * @ORM\Column(type="string",length=64,unique=true,nullable=false)
+     */
+    protected $uri = '';
+
+    /**
+     * @var string
      * @ORM\Column(type="string",length=64)
      */
     protected $section = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="text")
+     */
+    protected $perex = '';
 
     /**
      * @var string
@@ -46,7 +58,7 @@ class ArticleEntity extends IdentifiedEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $image = '';
 
@@ -62,11 +74,11 @@ class ArticleEntity extends IdentifiedEntity
 
 
 
-    /** @ORM\PrePersist */
-    public function onPrePersist()
+    function __construct()
     {
         $this->created = new DateTime();
     }
+
 
 
     /**
@@ -75,6 +87,11 @@ class ArticleEntity extends IdentifiedEntity
     public function onPreUpdate()
     {
         $this->updated = new DateTime();
+    }
+
+    function __toString()
+    {
+        return $this->title;
     }
 
 

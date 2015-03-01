@@ -2,6 +2,7 @@
 
 namespace App\FrontModule\Presenters;
 
+use App\AdminModule\repositories\ArticleRepository;
 use App\AdminModule\Repositories\CatalogItemRepository;
 use App\AdminModule\Repositories\CatalogRepository;
 use App\Model\Common;
@@ -22,6 +23,9 @@ class HomepagePresenter extends BasePresenter
 
     /** @var Common @inject */
     public $commonModel;
+
+    /** @var ArticleRepository @inject */
+    public $articleRepository;
 
 
     protected function startup()
@@ -53,6 +57,11 @@ class HomepagePresenter extends BasePresenter
         $this->template->price       = isset($acceptedPrice->prices) ? ($acceptedPrice->prices[0]->price) : null;
         $this->template->description = trim(html_entity_decode($product->text));
 
+    }
+
+
+    public function renderArticle($id) {
+        $this->template->article = $this->articleRepository->find($id);
     }
 
 }

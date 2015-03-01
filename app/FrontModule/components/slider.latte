@@ -1,0 +1,23 @@
+<div id="main_slider">
+	<div class="wrap">
+		<div class="container">
+			<div id="mySlider" class="carousel slide vertical">
+				<div class="carousel-inner">
+					{foreach $slides as $slide}
+					<div class="item{if $iterator->first} active{/if}">
+						<div class="rounded fleft">
+							<img src="{$basePath}/images/caj.jpg" alt="" width="200">
+							<div class="inset_shadow"></div>
+						</div>
+						<p class="h2">{$slide->title}</p>
+						{!$slide->perex}
+						<a href="{plink Homepage:article, $slide->id}" class="slide_btn"><span>Podrobněji</span></a>
+					</div>
+					{/foreach}
+				</div>
+				<a class="carousel-control left" href="#mySlider" data-slide="prev"></a>
+				<a class="carousel-control right" href="#mySlider" data-slide="next"></a>
+			</div>
+		</div>
+	</div>
+</div>

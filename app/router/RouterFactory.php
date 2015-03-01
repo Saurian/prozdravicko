@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\AdminModule\repositories\ArticleRepository;
 use App\AdminModule\Repositories\CatalogItemRepository;
 use App\AdminModule\Repositories\CatalogRepository;
 use App\Router\ProductRoute;
@@ -22,10 +23,15 @@ class RouterFactory
     /** @var CatalogRepository */
     private $_catalogRepository;
 
-    function __construct(CatalogRepository $_catalogRepository, CatalogItemRepository $_catalogItemRepository)
+    /** @var ArticleRepository */
+    private $_articleRepository;
+
+
+    function __construct(CatalogRepository $catalogRepository, CatalogItemRepository $catalogItemRepository, ArticleRepository $articleRepository)
     {
-        $this->_catalogRepository = $_catalogRepository;
-        $this->_catalogItemRepository = $_catalogItemRepository;
+        $this->_catalogRepository     = $catalogRepository;
+        $this->_articleRepository     = $articleRepository;
+        $this->_catalogItemRepository = $catalogItemRepository;
     }
 
 
@@ -40,10 +46,10 @@ class RouterFactory
         $router[]      = $adminRouter = new RouteList('Admin');
         $adminRouter[] = new Route('admin/[<locale=cs cs|en>/]<presenter>/<action>[/<id>]', 'Dashboard:default');
 
-        $router[]      = $cronRouter = new RouteList('Cron');
+        $router[]     = $cronRouter = new RouteList('Cron');
         $cronRouter[] = new Route('cron/<presenter>/<action>[/<id>]', 'Cron:default');
 
-        $router[]      = $frontRouter = new RouteList('Front');
+        $router[] = $frontRouter = new RouteList('Front');
 
         $frontRouter[] = new Route('sitemap.xml', array(
             'presenter' => 'Sitemap',
@@ -63,7 +69,20 @@ class RouterFactory
             ),
         ));
 
-        $productRoute = new ProductRoute('[<category>/]<id>', array(
+        $frontRouter[] = new Route('<id>', array(
+            'presenter' => 'Homepage',
+            'action'    => 'article',
+            'id'        => array(
+                Route::FILTER_IN  => function ($url) {
+                        return $this->_articleRepository->getIdByUrl($url);
+                    },
+                Route::FILTER_OUT => function ($url) {
+                        return $this->_articleRepository->getUrlById($url);
+                    },
+            ),
+        ));
+
+        $productRoute   = new ProductRoute('[<category>/]<id>', array(
             'presenter' => 'Homepage',
             'action'    => 'productDetail',
             'id'        => array(
@@ -76,7 +95,7 @@ class RouterFactory
             ),
         ));
         $productRoute->catalogItemRepository = $this->_catalogItemRepository;
-        $frontRouter[] = $productRoute;
+        $frontRouter[]                       = $productRoute;
 
         $frontRouter[] = new Route('<presenter>/<action>[/<id>]', array(
                 'presenter' => array(

@@ -11,11 +11,9 @@
 namespace App\AdminModule\Forms;
 
 
-use App\Entities\ArticleEntity;
+use App\AdminModule\repositories\ArticleRepository;
 use App\FrontModule\Forms\AbstractForm;
 use App\Model\ImageModel;
-use Kdyby\BootstrapFormRenderer\BootstrapRenderer;
-use Kdyby\Doctrine\EntityManager;
 use Nette\Application\UI\Form;
 use Nette;
 
@@ -31,30 +29,40 @@ interface IArticleFactory
 class ArticleForm extends AbstractForm
 {
 
-    /** @var \App\Entities\ArticleEntity */
-    protected $entity;
+    use \Devrun\DoctrineForms\EntityForm;
 
+    /** @var \App\Model\ImageModel */
     private $imageModel;
 
+    /** @var ArticleRepository */
+    private $articleRepository;
+
     /**
-     * @param \Kdyby\Doctrine\EntityManager $entityManager
-     * @param \App\Model\ImageModel         $imageModel
+     * @param \App\AdminModule\repositories\ArticleRepository $articleRepository
+     * @param \App\Model\ImageModel                           $imageModel
      */
-    public function __construct(EntityManager $entityManager, ImageModel $imageModel)
+    public function __construct(ArticleRepository $articleRepository, ImageModel $imageModel)
     {
         parent::__construct();
-        $this->imageModel = $imageModel;
-        $this->em         = $entityManager;
+        $this->imageModel        = $imageModel;
+        $this->articleRepository = $articleRepository;
+        $this->bootstrap3Render();
+        $this->startup();
+
     }
 
 
     public function startup()
     {
-
-        $this->addHidden('id');
         $this->addText('title', 'Titulek:');
         $this->addText('page', 'Stránka:');
+        $this->addText('uri', 'Url článku:')
+            ->addRule(Form::FILLED, 'Vyplňte');
         $this->addText('section', 'Sekce:');
+        $this->addTextArea('perex', 'Perex:')
+            ->addRule(Form::MAX_LENGTH, 'Poznámka je příliš dlouhá', 10000)
+            ->setAttribute('class', 'ckeditor');
+
         $this->addTextArea('text', 'Text:')
             ->addRule(Form::MAX_LENGTH, 'Poznámka je příliš dlouhá', 10000)
             ->setAttribute('class', 'ckeditor');
@@ -64,7 +72,6 @@ class ArticleForm extends AbstractForm
             ->addRule(Form::IMAGE, 'Avatar musí být JPEG, PNG nebo GIF.')
             ->addRule(Form::MAX_FILE_SIZE, 'Maximální velikost souboru je 2 MB.', 2 * 1024 * 1024);
 
-
         $this->addSubmit('send', 'Vložit článek');
         $this->onSuccess[] = array($this, 'formSubmitted');
     }
@@ -72,9 +79,8 @@ class ArticleForm extends AbstractForm
 
     public function formSubmitted(Form $form)
     {
-        $values    = $form->getValues();
 
-        die(dump($values));
+        $values = $form->getValues();
         $presenter = $this->getPresenter();
 
         /** @var $file Nette\Http\FileUpload */
@@ -88,30 +94,20 @@ class ArticleForm extends AbstractForm
             } catch (Nette\Utils\UnknownImageFileException $exc) {
                 $presenter->flashMessage($exc->getMessage(), 'error');
                 $presenter->redirect($this->redirect);
+            } catch (Nette\InvalidArgumentException $exc) {
+                $presenter->flashMessage($exc->getMessage(), 'error');
+                $presenter->redirect($this->redirect);
             }
 
         } elseif ($file->error == UPLOAD_ERR_NO_FILE) {
             unset($values['image']);
         }
 
-        $this->save($values);
-        $presenter->redirect($this->redirect);
-    }
+        $this->entityMapper->getEntityManager()->persist($this->entity);
+        $this->entityMapper->getEntityManager()->flush();
 
-
-    protected function onPostPersist()
-    {
-        parent::onPostPersist();
-        $presenter = $this->getPresenter();
-        $presenter->flashMessage('Článek byl přidán');
-        $presenter->flashMessage("Soubor byl přidán jako avatar", 'info');
-    }
-
-    protected function onPostUpdate()
-    {
-        parent::onPostUpdate();
-        $presenter = $this->getPresenter();
         $presenter->flashMessage('Článek byl upraven');
+        $presenter->redirect($this->redirect);
     }
 
 

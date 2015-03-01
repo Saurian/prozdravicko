@@ -34,7 +34,6 @@ class AbstractForm extends Form implements IDevrunFormFactory
 
     protected $redirect;
 
-    protected $entity;
 
     /** @var \Kdyby\Doctrine\EntityManager */
     protected $em;

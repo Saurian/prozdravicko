@@ -44,6 +44,8 @@ services:
 #	- App\AdminModule\Repositories\CatalogRepository(@doctrine.dao(App\Entities\CatalogCategoryEntity))
 	- App\AdminModule\Repositories\CatalogItemRepository(@doctrine.dao(App\Entities\CatalogItemEntity))
 
+#	repositories.articleRepository: App\AdminModule\Repositories\ArticleRepository
+	repositories.articleRepository: App\AdminModule\Repositories\ArticleRepository(@doctrine.dao(App\Entities\ArticleEntity))
 	repositories.categoryRepository: App\AdminModule\Repositories\CatalogRepository(@doctrine.dao(App\Entities\CatalogCategoryEntity))
 	repositories.userRepository: App\AdminModule\Repositories\UserRepository(@doctrine.dao(App\Entities\UserEntity))
 	repositories.accessRepository: App\AdminModule\Repositories\AccessRepository(@doctrine.dao(App\Entities\AccessEntity))
@@ -115,6 +117,12 @@ services:
 	forms.userFormFactory:
 		implement: App\AdminModule\Forms\IUserLoginFactory
 
+	components.sliderFactory:
+		implement: App\FrontModule\components\ISliderFactory
+
+	components.menuFactory:
+		implement: App\FrontModule\components\IMenuFactory
+
 
 
 
@@ -163,3 +171,8 @@ extensions:
 	google: Kdyby\Google\DI\GoogleExtension
 	facebook: Kdyby\Facebook\DI\FacebookExtension
 	replicator: Kdyby\Replicator\DI\ReplicatorExtension
+	doctrineForms: Devrun\DoctrineForms\DI\FormsExtension
+	menu: DK\Menu\DI\Extension
+
+includes:
+	- ./menu.neon

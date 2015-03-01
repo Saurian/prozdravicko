@@ -1,0 +1,43 @@
+<a class="btn dark_btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse_">MENU</a>
+
+{if !isset($menuParent)}
+	{var $menuParent = $menu}
+{/if}
+
+<div class="nav-collapse nav-collapse_ collapse">
+	<ul class="nav sf-menu" n:block="branch" n:if="$menuParent->hasVisualItems()">
+		<li n:class="$item->isActive() ? active" n:foreach="$menuParent->getItems() as $item" n:if="$item->isVisual() && $item->isAllowed()">
+			<a href="{$item->getLink()}" n:class="$item->isActive() ? active">{$item->getTranslatedTitle()}</a>
+			{include branch, menuParent => $item}
+		</li>
+	</ul>
+</div>
+
+<div class="nav-collapse nav-collapse_ collapse hide">
+	<ul class="nav sf-menu">
+		<li class="active"><a href="index.html">home</a></li>
+		<li><a href="about.html">About</a></li>
+		<li class="sub-menu"><a href="javascript:{}">Features</a>
+			<ul>
+				<li><a href="scaffolding.html">Scaffolding</a></li>
+				<li><a href="typography.html">Typography</a></li>
+				<li><a href="shortcodes.html">Shortcodes</a></li>
+				<li><a href="tables.html">Tables</a></li>
+			</ul>
+		</li>
+		<li class="sub-menu"><a href="javascript:{}">Portfolio</a>
+			<ul>
+				<li><a href="portfolio_2columns.html">2 Columns</a></li>
+				<li><a href="portfolio_3columns.html">3 Columns</a></li>
+				<li><a href="http://template-guide.com/preview/4933/portfolio_4columns.html">4 Columns</a></li>
+			</ul>
+		</li>
+		<li class="sub-menu"><a href="javascript:{}">Blog</a>
+			<ul>
+				<li><a href="blog.html">Blog with right sidebar</a></li>
+				<li><a href="blog_post.html">Blog post</a></li>
+			</ul>
+		</li>
+		<li><a href="contacts.html">Contacts</a></li>
+	</ul>
+</div>

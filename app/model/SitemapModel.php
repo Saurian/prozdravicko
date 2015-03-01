@@ -2,12 +2,10 @@
 
 namespace App\Model;
 
+use App\AdminModule\repositories\ArticleRepository;
 use App\AdminModule\Repositories\CatalogItemRepository;
 use App\AdminModule\Repositories\CatalogRepository;
-use App\Entities\CatalogCategoryEntity;
 use Doctrine\ORM\Query;
-use Kdyby\Doctrine\EntityDao;
-use Kdyby\Doctrine\EntityManager;
 use Nette\Utils\DateTime;
 
 class SitemapModel extends AbstractModel
@@ -18,11 +16,18 @@ class SitemapModel extends AbstractModel
     /** @var CatalogItemRepository */
     private $catalogItemRepository;
 
+    /** @var ArticleRepository */
+    private $articleRepository;
 
-    public function __construct(CatalogRepository $catalogRepository, CatalogItemRepository $catalogItemRepository)
+
+    public function __construct(
+        CatalogRepository $catalogRepository,
+        CatalogItemRepository $catalogItemRepository,
+        ArticleRepository $articleRepository)
     {
         $this->catalogRepository     = $catalogRepository;
         $this->catalogItemRepository = $catalogItemRepository;
+        $this->articleRepository     = $articleRepository;
     }
 
 
@@ -30,6 +35,7 @@ class SitemapModel extends AbstractModel
     {
         $result     = array();
         $categories = $this->catalogRepository->findBy(array());
+        $articles   = $this->articleRepository->findBy(array());
 
         $result[] = array(
             'presenter' => 'Homepage',
@@ -56,6 +62,15 @@ class SitemapModel extends AbstractModel
                     'updated'   => $product->updated,
                 );
             }
+        }
+
+        foreach ($articles as $article) {
+            $result[] = array(
+                'presenter' => 'Homepage',
+                'action'    => 'article',
+                'id'        => $article->id,
+                'updated'   => $article->updated,
+            );
         }
 
         return $result;

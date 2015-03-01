@@ -1,0 +1,14 @@
+menu:
+
+	default:
+		template:
+			menu: %appDir%/FrontModule/templates/components/menu/menu.latte
+			breadcrumb: %appDir%/templates/components/menu/breadcrumb.latte
+		items:
+			Domů: Homepage:default
+
+			Články:
+				target: Homepage:article
+				items:
+					Chuť na sladké: Homepage:article
+				include: '^Homepage\:[a-zA-Z]+$'

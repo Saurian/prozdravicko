@@ -1,8 +1,9 @@
 $(function () {
 
     //Slider & testimonials
-    $('#mySlider, #testimonials_carousel').carousel({
-        pause: 'hover'
+    $('#mySlider').carousel({
+        pause: 'hover',
+        interval: 20000
     });
 
     //accordion
